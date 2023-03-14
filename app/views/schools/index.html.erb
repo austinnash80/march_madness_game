@@ -1,0 +1,26 @@
+<div class="card">
+  <div class="card-body px-5">
+    <%#= link_to 'Add', new_school_path(), class:'btn btn-primary' %>
+    <h1>Schools</h1>
+    <table class="table border table-hover">
+        <!-- <caption class="caption-top">South Region</caption> -->
+        <thead class="table-light">
+        <tr>
+          <th>Seed</th>
+          <th>School</th>
+          <th>Region</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @schools.order(:seed).order(:region).each do |s| %>
+        <tr>
+          <td><%= s.seed %></td>
+          <td><%= s.name %></td>
+          <td><%= s.region %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table> 
+  </div>
+</div>
+

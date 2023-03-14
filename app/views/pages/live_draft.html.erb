@@ -1,0 +1,95 @@
+   <% group = Group.find_by(id: params['group_id']) %>
+   <%# draft_order = group.draft_order %>
+   <% group_members = GroupMember.where(group_id: group.id).pluck(:user_id) %>
+   <%# member_1 = User.find_by(id: draft_order[0]) %>
+   <% member_1 = User.find_by(id: group.draft_order_1) %>
+   <% member_2 = User.find_by(id: group.draft_order_2) %>
+   <% member_3 = User.find_by(id: group.draft_order_3) %>
+   <% member_4 = User.find_by(id: group.draft_order_4) %>
+   <% picks = Pick.where(group_id: group.id).pluck(:school_id) %>
+   <% all_seeds = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16] %>
+   <% @total_draft %>
+   <br>
+   <% Pick.where(group_id: group.id).count %>
+	<br>
+	<% @total_draft[Pick.where(group_id: group.id).count] %>
+	<% pick_id = @total_draft[Pick.where(group_id: group.id).count] %>
+
+
+<div class="card">
+	<div class="card-body p-5">
+		<h2>Live Draft</h2>
+		<p><span class="fw-bold">Group name:</span> <%= group.name %></p>
+		<p><span class="fw-bold">Snake draft order:</span> <%= member_1.email.titlecase %>, <%= member_2.email.titlecase %>, <%= member_3.email.titlecase %>, <%= member_4.email.titlecase %></p>	
+		<p><span class="fw-bold">Picks made:</span> <%= Pick.where(group_id: group.id).count %></p>
+		<% unless Pick.where(group_id: group.id).count == 64 %><%= link_to 'View teams', group_path(id: group.id), class: 'btn btn-outline-secondary' %><% end %>
+			
+			<% if Pick.where(group_id: group.id).count == 64 %>
+				<h3 class="text-center">Draft is over </h3>
+				<span class="text-center"><%= link_to 'View teams', group_path(id: group.id), class: 'btn btn-success' %></span>
+			<% else %>
+				<h3 class="text-center">On the clock: <span class="fw-bold text-success"><%= User.find_by(id: pick_id).email.titlecase %></span></h3>
+			<% end %>
+
+		<div class="row">
+			<div class="col">
+				<table class="table border table-hover">
+					<thead class="table-light">
+						<tr>
+							<th>Seed</th>
+							<th>School</th>
+							<th>Region</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<% School.where(seed: 1..8).all.order(:seed).order(:region).each do |s| %>
+						<tr>
+							<td width="10%"><%= s.seed %></td>
+							<td width="40%"><%= s.name %></td>
+							<td width="20%"><%= s.region %></td>
+							<% if picks.include? s.id %>
+							<td width="30%"><a href="#" class="btn btn-outline-primary form-control btn-sm disabled" role="button" aria-disabled="true"><%= User.where(id: (Pick.where(group_id: group.id, school_id: s.id).pluck(:user_id)[0])).pluck(:email)[0].titlecase %>'s' Team</a></td>
+			
+							<% elsif current_user.id == pick_id %>
+							<td width="30%"><%= link_to  'Draft Team', picks_path(draft: 'live', user_id: current_user.id, group_id: group.id, school_id: s.id), class: 'btn btn-outline-success form-control btn-sm' %></td>						
+							<% else %>
+							<td width="30%"><a href="#" class="btn btn-outline-secondary form-control btn-sm disabled" role="button" aria-disabled="true">Draft Team</a></td>
+							<% end %>
+						</tr>
+						<% end %>
+					</tbody>
+				</table> 
+			</div>
+			<div class="col">
+				<table class="table border table-hover">
+					<thead class="table-light">
+						<tr>
+							<th>Seed</th>
+							<th>School</th>
+							<th>Region</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+						<% School.where(seed: 9..16).all.order(:seed).order(:region).each do |s| %>
+						<tr>
+							<td width="10%"><%= s.seed %></td>
+							<td width="40%"><%= s.name %></td>
+							<td width="20%"><%= s.region %></td>
+							<% if picks.include? s.id %>
+							<td width="30%" class="text-primary fw-bold text-center"><%= link_to "#{ User.where(id: (Pick.where(group_id: group.id, school_id: s.id).pluck(:user_id)[0])).pluck(:email)[0].titlecase}'s Team", pages_live_draft_path(), class: 'btn btn-outline-primary form-control btn-sm' %></td>
+							<% elsif current_user.id == pick_id %>
+							<td width="30%"><%= link_to  'Draft Team', picks_path(draft: 'live', user_id: current_user.id, group_id: group.id, school_id: s.id), class: 'btn btn-outline-success form-control btn-sm' %></td>						
+							<% else %>
+							<td width="30%"><a href="#" class="btn btn-outline-secondary form-control btn-sm disabled" role="button" aria-disabled="true">Draft Team</a></td>
+							<% end %>
+						</tr>
+						<% end %>
+					</tbody>
+				</table> 
+			</div>
+		</div>
+	
+	</div>
+</div>

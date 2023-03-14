@@ -1,0 +1,58 @@
+<div class="card">
+  <div class="card-body">
+    <% member_ids = GroupMember.where(group_id: @group.id).pluck(:user_id) %>
+    <h1 class="text-center"><%= @group.name %></h1>
+    <div class="p-5">
+        <div class="row">
+          <% member_ids.first(2).each do |group_member| %>
+            <div class="col">
+              <h5 class="text-center"><%= User.find_by(id: group_member).email.titlecase %></h5>
+              <table class="table border table-hover">
+                 <thead class="table-light">
+                    <th>Seed</th>
+                    <th>School</th>
+                    <th>Region</th>
+                    <th>Points</th>
+                  </thead>
+                <tbody>
+                  <% Pick.where(group_id: @group.id, user_id: group_member).all.each do |i| %>
+                    <tr>
+                      <td><%= School.where(id: i.school_id).pluck(:seed)[0] %></td>
+                      <td><%= School.where(id: i.school_id).pluck(:name)[0] %></td>
+                      <td><%= School.where(id: i.school_id).pluck(:region)[0] %></td>
+                      <td></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div> 
+          <% end %>
+        </div>
+        <div class="row">
+          <% member_ids.last(2).each do |group_member| %>
+            <div class="col">
+              <h5 class="text-center"><%= User.find_by(id: group_member).email.titlecase %></h5>
+              <table class="table border table-hover">
+                 <thead class="table-light">
+                    <th>Seed</th>
+                    <th>School</th>
+                    <th>Region</th>
+                    <th>Points</th>
+                  </thead>
+                <tbody>
+                  <% Pick.where(group_id: @group.id, user_id: group_member).all.each do |i| %>
+                    <tr>
+                      <td><%= School.where(id: i.school_id).pluck(:seed)[0] %></td>
+                      <td><%= School.where(id: i.school_id).pluck(:name)[0] %></td>
+                      <td><%= School.where(id: i.school_id).pluck(:region)[0] %></td>
+                      <td></td>
+                    </tr>
+                  <% end %>
+                </tbody>
+              </table>
+            </div> 
+          <% end %>
+        </div>
+      </div>
+  </div>
+</div>

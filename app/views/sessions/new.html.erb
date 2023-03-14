@@ -1,0 +1,23 @@
+<div class="card">
+  <div class="card-body">
+    <!-- ALERT MESSAGES -->
+      <% if params['need_login'] == 'y' %> <p class="text-danger">Must login to access page</p><% end %>
+      <% if params['rp'] == 'y' %> <p class="text-success">Reset password email was sent to email provided</p><% end %>
+      <% if params['iv'] == 'y' %> <p class="text-danger">Incorrect login, please try again</p><% end %>
+    <!-- ALERT MESSAGES END -->
+<h1>Log In</h1>
+	<%= form_tag sessions_path do %>
+	  <div class="field">
+	    <%= label_tag :email, 'Name' %><br />
+	    <%= text_field_tag :email, params[:email], class: 'form-control input_text_box' %>
+	  </div>
+	  <div class="field">
+	    <%= label_tag :password %><br />
+	    <%= password_field_tag :password, "", class: 'form-control input_text_box' %>
+	  </div>
+	  <br>
+	  <div class="actions"><%= submit_tag "Log In", class: 'btn btn-primary' %></div>
+	<% end %>
+
+  </div>
+</div>

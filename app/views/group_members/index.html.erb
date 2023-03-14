@@ -1,0 +1,21 @@
+<div class="card">
+  <div class="card-body">
+    <h1>Group members</h1>
+    <table class="table border table-hover">
+        <thead class="table-light">
+        <tr>
+          <th>Group ID</th>
+          <th>User ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @group_members.each do |i| %>
+        <tr>
+          <td><%= i.group_id %></td>
+          <td><%= i.user_id %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

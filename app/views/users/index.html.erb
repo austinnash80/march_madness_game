@@ -1,0 +1,23 @@
+<div class="card">
+  <div class="card-body">
+    <%= link_to 'Add', new_user_path(), class:'btn btn-primary' %>
+    <h1>Users</h1>
+    <table class="table border table-hover">
+        <thead class="table-light">
+        <tr>
+          <th>User ID</th>
+          <th>Name</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @users.each do |i| %>
+        <tr>
+          <td><%= i.id %></td>
+          <td><%= i.email.titlecase %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>
+

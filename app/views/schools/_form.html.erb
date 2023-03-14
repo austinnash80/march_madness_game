@@ -1,0 +1,21 @@
+
+<%= simple_form_for(@school) do |f| %>
+  <%= f.error_notification %>
+  <%= f.error_notification message: f.object.errors[:base].to_sentence if f.object.errors[:base].present? %>
+
+  <div class="form-inputs">
+    <%= f.input :name, label: 'School', input_html: {class: 'form-control input_text_box'} %>
+    <%= f.input :seed, input_html: {class: 'form-control input_text_box'} %>
+    <%= f.input :region, input_html: {class: 'form-control input_text_box'}, as: :select, collection: ['West', 'South', 'Midwest', 'East'] %>
+    <%#= f.input :w1 %>
+    <%#= f.input :w2 %>
+    <%#= f.input :w3 %>
+    <%#= f.input :w4 %>
+    <%#= f.input :w5 %>
+    <%#= f.input :w6 %>
+  </div>
+
+  <div class="form-actions">
+    <%= f.button :submit, class: 'btn btn-primary' %>
+  </div>
+<% end %>

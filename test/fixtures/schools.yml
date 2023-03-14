@@ -1,0 +1,23 @@
+# Read about fixtures at https://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  name: MyString
+  seed: 1
+  region: MyString
+  w1: false
+  w2: false
+  w3: false
+  w4: false
+  w5: false
+  w6: false
+
+two:
+  name: MyString
+  seed: 1
+  region: MyString
+  w1: false
+  w2: false
+  w3: false
+  w4: false
+  w5: false
+  w6: false

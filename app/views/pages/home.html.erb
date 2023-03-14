@@ -1,0 +1,30 @@
+<div class="card">
+	<div class="card-body p-5">
+		<div class="row">
+			<div class="col-4">
+				<div class=""><%= link_to 'Join/Create Group', groups_path, class: 'btn btn-outline-primary form-control' %></div>
+				<br>
+				<p class="fw-bold">My Groups </p>
+				<% if current_user.present? %>
+				<table>
+					</thead>
+					<tbody>
+						<% my_groups = GroupMember.where(user_id: current_user.id).pluck(:group_id) %>
+						<% Group.where(id: my_groups).each do |i| %>
+							<tr>
+								<td class="text-primary"><%= link_to i.name, group_path(id: i.id) %></td>
+							</tr>
+						<% end %>
+					</tbody>
+				</table>
+				<% end %>
+			</div>
+			<div class="col-8">
+				<div class="border p-3">
+				<%= image_tag("cbs-sports-2023-bracket_1.jpg", class: "img-fluid img-fluid" ) %>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+

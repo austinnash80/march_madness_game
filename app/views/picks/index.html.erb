@@ -1,0 +1,24 @@
+
+<div class="card">
+  <div class="card-body">
+    <h1>Picks</h1>
+    <table class="table border table-hover">
+        <thead class="table-light">
+        <tr>
+          <th>Group ID</th>
+          <th>User ID</th>
+          <th>School ID</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @picks.each do |i| %>
+        <tr>
+          <td><%= i.group_id %></td>
+          <td><%= i.user_id %></td>
+          <td><%= i.school_id %></td>
+        </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+</div>

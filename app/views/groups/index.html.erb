@@ -1,0 +1,57 @@
+<div class="card">
+  <div class="card-body">
+    <div class="text-center"><%= link_to 'Create New Group', new_group_path(), class:'btn btn-outline-secondary btn-sm px-5' %></div>
+    <div class="p-3">
+    <h2>Groups</h2>
+      <table class="table border table-hover">
+          <thead class="table-light">
+          <tr>
+            <th>ID</th>
+            <th>Group Name</th>
+            <th>Member 1</th>
+            <th>Member 2</th>
+            <th>Member 3</th>
+            <th>Member 4</th>
+            <th></th>
+          </tr>
+        </thead>
+        <tbody>
+          <% @groups.each do |g| %>
+            <% member_1 = User.where(id: (GroupMember.where(group_id: g.id).pluck(:user_id)[0])).pluck(:email)[0] %>
+            <% member_2 = User.where(id: (GroupMember.where(group_id: g.id).pluck(:user_id)[1])).pluck(:email)[0] %>
+            <% member_3 = User.where(id: (GroupMember.where(group_id: g.id).pluck(:user_id)[2])).pluck(:email)[0] %>
+            <% member_4 = User.where(id: (GroupMember.where(group_id: g.id).pluck(:user_id)[3])).pluck(:email)[0] %>
+            <% member_count = GroupMember.where(group_id: g.id).count %>
+          <tr>
+            <td width="5%"><%= g.id %></td>
+            <td width="15%"><%= g.name %></td>
+            <td width="15%"><%= member_1.to_s.titlecase %></td>
+            <td width="15%"><%= member_2.to_s.titlecase %></td>
+            <td width="15%"><%= member_3.to_s.titlecase %></td>
+            <td width="15%"><%= member_4.to_s.titlecase %></td> 
+
+            <% if g.auto_draft_complete? || g.live_draft_complete? %>
+                <td width="20%"><%= link_to 'Draft Complete', group_path(id: g.id), class: 'btn btn-outline-success btn-sm form-control' %></td>
+            <% elsif g.live_draft_start? %>
+              <td><%= link_to 'Enter Live Draft', pages_live_draft_path(draft: 'live', group_id: g.id), class: 'btn btn-outline-primary btn-sm form-control' %></td>
+            <% elsif member_count == 4 %>
+              <td>
+               <div width="20%" style="width: 100%" class="btn-group btn-group-justified" role="group">
+                <%= link_to 'Auto Draft', picks_path(draft: 'auto', group_id: g.id), class: 'btn btn-outline-primary btn-sm' %>
+                <% draft_order = GroupMember.where(group_id: g.id).pluck(:user_id).shuffle %>
+                <%= link_to 'Live Draft', pages_live_draft_path(draft: 'live', group_id: g.id, d1: draft_order[0], d2: draft_order[1], d3: draft_order[2], d4: draft_order[3]), class: 'btn btn-outline-primary btn-sm' %>
+              </div>
+            </td>
+            <% elsif GroupMember.where(group_id: g.id).pluck(:user_id).include? current_user.id %>
+                <td width="20%"><a href="#" class="btn btn-outline-success form-control btn-sm disabled" role="button" aria-disabled="true">Waiting to fill group</a></td>
+            <% else %>
+              <td width="20%"><%= link_to 'Join Group', groups_path(join_group: 'yes', uid: current_user.id, gid: g.id), class: 'btn btn-outline-primary btn-sm form-control' %></td>
+            <% end %>
+          </tr>
+          <% end %>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
